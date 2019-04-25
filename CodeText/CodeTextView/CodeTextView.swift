@@ -19,7 +19,7 @@ class CodeTextView: NSTextView {
     
     lazy var highlighterProvider: CodeHighlighterProvider = {
         return CodeHighlighterProvider(defaultAttributes: [NSAttributedString.Key.foregroundColor: NSColor.white],
-                                       codeHighlighters: [SwiftKeywordCodeHighlighter()])
+                                       codeHighlighters: [SwiftKeywordCodeHighlighter(), SwiftOtherCodeHightlighter()])
     }()
     
     // Programmatic initialization
@@ -77,8 +77,9 @@ extension CodeTextView: NSTextStorageDelegate {
         let length = (editedRange.lowerBound - start) + editedRange.length + (end - editedRange.upperBound)
         let updatedRange = NSMakeRange(start, (length))
         
-        var tempString = ""
+        var currentToken = ""
         var range = NSMakeRange(updatedRange.location, 0)
+        var previousToken = ""
         
         print(updatedRange)
         print("Length: \(updatedRange.length)")
@@ -87,9 +88,9 @@ extension CodeTextView: NSTextStorageDelegate {
         ///
         /// - Parameter offset: Offset of the new start location.
         func reset(offset: Int = 0) {
-            range.location += tempString.count + offset
+            range.location += currentToken.count + offset
             range.length = 0
-            tempString = ""
+            currentToken = ""
         }
         
         // Apply Highlight
@@ -98,15 +99,18 @@ extension CodeTextView: NSTextStorageDelegate {
             if textSeparatorProvider.isSeparator(currentCharacter) {
                 reset(offset: 1)
             } else {
-                tempString += currentCharacter
+                currentToken += currentCharacter
                 range.length += 1
                 
                 for highlighter in highlighterProvider.codeHighlighters {
                     let peakCharacter = (i+1) == textCharacters.count ? nil : textCharacters[i+1].string
-                    if highlighter.shouldHighlight(text: tempString, peakCharacter: peakCharacter) {
+                    if highlighter.shouldHighlight(text: currentToken,
+                                                   peakCharacter: peakCharacter,
+                                                   previousToken: previousToken) {
                         for (key, value) in highlighter.attributes {
                             textStorage.addAttribute(key, value: value, range: range)
                         }
+                        previousToken = currentToken
                         reset()
                     } else {
                         for (key, value) in highlighterProvider.defaultAttributes {
