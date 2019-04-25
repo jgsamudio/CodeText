@@ -9,10 +9,37 @@
 import Foundation
 import Cocoa
 
+protocol TextSeparatorProvider {
+    var separators: [String] { get}
+    func isSeparator(_ text: String) -> Bool
+}
+
+extension TextSeparatorProvider {
+    
+    func isSeparator(_ text: String) -> Bool {
+        return separators.contains(text)
+    }
+}
+
+struct SwiftTextSeparatorProvider: TextSeparatorProvider {
+    
+    let separators = [
+        " ", "}", "{", "(", "\n", "\t"
+    ]
+}
+
 class CodeTextView: NSTextView {
     
-    // TODO: Make Protocol
-    private var highlighter = CodeHighlighter()
+    // MARK: - Injectable Variables
+    
+    lazy var textSeparatorProvider: TextSeparatorProvider = {
+       return SwiftTextSeparatorProvider()
+    }()
+    
+    lazy var highlighterProvider: CodeHighlighterProvider = {
+        return CodeHighlighterProvider(defaultAttributes: [NSAttributedString.Key.foregroundColor: NSColor.white],
+                                       codeHighlighters: [SwiftKeywordCodeHighlighter()])
+    }()
     
     // Programmatic initialization
     init() {
@@ -25,20 +52,16 @@ class CodeTextView: NSTextView {
         super.init(coder: coder)
         initialize()
     }
-    
-    
-    override func didChangeText() {
-//        textStorage?.words.forEach { print($0) }
-//        updateText()
-    }
 }
 
 private extension CodeTextView {
     
     func initialize() {
-//        delegate = self
         textStorage?.delegate = self
+        string = SampleTexts.sampleFileText
     }
+    
+    // TODO: On /t change tab to 4 spaces
 }
 
 extension CodeTextView: NSTextStorageDelegate {
@@ -55,13 +78,17 @@ extension CodeTextView: NSTextStorageDelegate {
             return
         }
         
-        while start > 0, textStorage.characters[start].string != " " {
+        // Preload the character array
+        // Needed for performance.
+        let textCharacters = textStorage.characters
+        
+        while start > 0, !textSeparatorProvider.isSeparator(textCharacters[start].string) {
             start -= 1
         }
         
         var end = editedRange.upperBound
         
-        while end < textStorage.characters.count, textStorage.characters[end].string != " " {
+        while end < textCharacters.count, !textSeparatorProvider.isSeparator(textCharacters[end].string) {
             end += 1
         }
         
@@ -71,64 +98,61 @@ extension CodeTextView: NSTextStorageDelegate {
         var tempString = ""
         var range = NSMakeRange(updatedRange.location, 0)
         
-        // Preload the character array
-        // Needed for performance.
-        let textCharacters = textStorage.characters
+        print(updatedRange)
+        print("Length: \(updatedRange.length)")
+        
+        func reset(offset: Int = 0) {
+            range.location += tempString.count + offset
+            range.length = 0
+            tempString = ""
+        }
         
         for i in updatedRange.location..<(updatedRange.location + updatedRange.length) {
             let currentCharacter = textCharacters[i].string
-            if currentCharacter == " " {
-                // Reset the range
-                // Space of the space +1
-                range.location += tempString.count + 1
-                range.length = 0
-                tempString = ""
+            if textSeparatorProvider.isSeparator(currentCharacter) {
+                reset(offset: 1)
             } else {
                 tempString += currentCharacter
                 range.length += 1
-
-                if tempString == "func" ||
-                    tempString == "extension" ||
-                    tempString == "var" ||
-                    tempString == "if" ||
-                    tempString == "else" {
-                    textStorage.addAttribute(NSAttributedString.Key.foregroundColor, value: NSColor.red, range: range)
-
-                    // Reset the range
-                    range.location += tempString.count
-                    range.length = 0
-                    tempString = ""
-                } else {
-                    print(range)
-                    textStorage.addAttribute(NSAttributedString.Key.foregroundColor, value: NSColor.white, range: range)
+                
+                for highlighter in highlighterProvider.codeHighlighters {
+                    if highlighter.shouldHighlight(text: tempString) {
+                        for (key, value) in highlighter.attributes {
+                            textStorage.addAttribute(key, value: value, range: range)
+                        }
+                        reset()
+                    } else {
+                        for (key, value) in highlighterProvider.defaultAttributes {
+                            textStorage.addAttribute(key, value: value, range: range)
+                        }
+                    }
                 }
             }
         }
     }
 }
 
-//extension CodeTextView: NSTextViewDelegate {
-//
-//    // Delegate only.  If characters are changing, replacementString is what will replace the affectedCharRange.
-//    // If attributes only are changing, replacementString will be nil.  Will not be called if
-//    // textView:shouldChangeTextInRanges:replacementStrings: is implemented.
-//    func textView(_ textView: NSTextView,
-//                  shouldChangeTextIn affectedCharRange: NSRange,
-//                  replacementString: String?) -> Bool {
-////        print(replacementString!)
-//        return true
-//    }
-//
-////    func textView(_ textView: NSTextView,
-////                  shouldChangeTypingAttributes oldTypingAttributes: [String : Any] = [:],
-////                  toAttributes newTypingAttributes: [NSAttributedString.Key : Any] = [:]) -> [NSAttributedString.Key : Any] {
-////        print(oldTypingAttributes)
-////        print(newTypingAttributes)
-////        return newTypingAttributes
-////    }
-//}
+struct CodeHighlighterProvider {
+    let defaultAttributes: [NSAttributedString.Key: Any]
+    let codeHighlighters: [CodeHighlighter]
+}
 
-class CodeHighlighter {
+protocol CodeHighlighter {
+    var attributes: [NSAttributedString.Key: Any] { get }
+    func shouldHighlight(text: String) -> Bool
+}
+
+class SwiftKeywordCodeHighlighter: CodeHighlighter {
     
+    private let keywords = [
+        "func", "extensions", "private", "var", "if", "else", "init", "class", "protocol"
+    ]
     
+    var attributes: [NSAttributedString.Key: Any] {
+        return [NSAttributedString.Key.foregroundColor: NSColor.red]
+    }
+    
+    func shouldHighlight(text: String) -> Bool {
+        return keywords.contains(text)
+    }
 }

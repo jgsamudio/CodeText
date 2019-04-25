@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2049C507227140FA0042EA37 /* SampleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049C506227140FA0042EA37 /* SampleText.swift */; };
 		20B1EEBA2270E58200EB4A1D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B1EEB92270E58200EB4A1D /* AppDelegate.swift */; };
 		20B1EEBC2270E58300EB4A1D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B1EEBB2270E58300EB4A1D /* ViewController.swift */; };
 		20B1EEBE2270E58400EB4A1D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20B1EEBD2270E58400EB4A1D /* Assets.xcassets */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2049C506227140FA0042EA37 /* SampleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleText.swift; sourceTree = "<group>"; };
 		20B1EEB62270E58200EB4A1D /* CodeText.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeText.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20B1EEB92270E58200EB4A1D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		20B1EEBB2270E58300EB4A1D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				20B1EEE72270EACA00EB4A1D /* CodeTextView.swift */,
+				2049C506227140FA0042EA37 /* SampleText.swift */,
 			);
 			path = CodeTextView;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 			files = (
 				20B1EEBC2270E58300EB4A1D /* ViewController.swift in Sources */,
 				20B1EEE82270EACA00EB4A1D /* CodeTextView.swift in Sources */,
+				2049C507227140FA0042EA37 /* SampleText.swift in Sources */,
 				20B1EEBA2270E58200EB4A1D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
