@@ -13,7 +13,9 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        let interpreter = Interpreter(text: "17 - 3 + 6")
+        let result = interpreter.expr()
+        print(result)
     }
 
     override var representedObject: Any? {

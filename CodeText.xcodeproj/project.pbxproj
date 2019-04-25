@@ -13,6 +13,7 @@
 		2049C50F22714EC40042EA37 /* CodeHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049C50E22714EC40042EA37 /* CodeHighlighter.swift */; };
 		2049C51122714ECF0042EA37 /* CodeHighlighterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049C51022714ECF0042EA37 /* CodeHighlighterProvider.swift */; };
 		2049C51322714ED90042EA37 /* SwiftKeywordCodeHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049C51222714ED90042EA37 /* SwiftKeywordCodeHighlighter.swift */; };
+		2049C5162271DF510042EA37 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049C5152271DF510042EA37 /* Tokenizer.swift */; };
 		20B1EEBA2270E58200EB4A1D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B1EEB92270E58200EB4A1D /* AppDelegate.swift */; };
 		20B1EEBC2270E58300EB4A1D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B1EEBB2270E58300EB4A1D /* ViewController.swift */; };
 		20B1EEBE2270E58400EB4A1D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20B1EEBD2270E58400EB4A1D /* Assets.xcassets */; };
@@ -46,6 +47,7 @@
 		2049C50E22714EC40042EA37 /* CodeHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeHighlighter.swift; sourceTree = "<group>"; };
 		2049C51022714ECF0042EA37 /* CodeHighlighterProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeHighlighterProvider.swift; sourceTree = "<group>"; };
 		2049C51222714ED90042EA37 /* SwiftKeywordCodeHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftKeywordCodeHighlighter.swift; sourceTree = "<group>"; };
+		2049C5152271DF510042EA37 /* Tokenizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tokenizer.swift; sourceTree = "<group>"; };
 		20B1EEB62270E58200EB4A1D /* CodeText.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeText.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20B1EEB92270E58200EB4A1D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		20B1EEBB2270E58300EB4A1D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +108,14 @@
 			path = CodeHighlighter;
 			sourceTree = "<group>";
 		};
+		2049C5142271DF450042EA37 /* AST */ = {
+			isa = PBXGroup;
+			children = (
+				2049C5152271DF510042EA37 /* Tokenizer.swift */,
+			);
+			path = AST;
+			sourceTree = "<group>";
+		};
 		20B1EEAD2270E58200EB4A1D = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +171,7 @@
 		20B1EEE92271006200EB4A1D /* CodeTextView */ = {
 			isa = PBXGroup;
 			children = (
+				2049C5142271DF450042EA37 /* AST */,
 				2049C50D22714EB90042EA37 /* CodeHighlighter */,
 				2049C50822714E7B0042EA37 /* TextSeparatorProvider */,
 				20B1EEE72270EACA00EB4A1D /* CodeTextView.swift */,
@@ -300,6 +311,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				20B1EEBC2270E58300EB4A1D /* ViewController.swift in Sources */,
+				2049C5162271DF510042EA37 /* Tokenizer.swift in Sources */,
 				2049C50F22714EC40042EA37 /* CodeHighlighter.swift in Sources */,
 				20B1EEE82270EACA00EB4A1D /* CodeTextView.swift in Sources */,
 				2049C50A22714E890042EA37 /* TextSeparatorProvider.swift in Sources */,
