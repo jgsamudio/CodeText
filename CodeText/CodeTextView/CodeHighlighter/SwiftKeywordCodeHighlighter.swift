@@ -9,18 +9,45 @@
 import Foundation
 import Cocoa
 
-class SwiftKeywordCodeHighlighter: CodeHighlighter {
+enum Keywords: String, CaseIterable {
+    case `func`
+    case `extension`
+    case `private`
+    case `var`
+    case `let`
+    case `if`
+    case `else`
+    case `init`
+    case `protocol`
+    case `while`
+    case `lazy`
+    case `return`
+    case `import`
+    case `super`
+    case `required`
+    case `for`
+    case `in`
+    case `self`
+    case `class`
+    case `nil`
     
-    private let keywords = [
-        "func", "extension", "private", "var", "let", "if", "else", "init", "class", "protocol", "while", "lazy",
-        "return", "import", "super", "required", "for", "in", "self"
-    ]
+    static func shouldHighlight(text: String, peakCharacter: String?) -> Bool {
+        for keyword in Keywords.allCases {
+            if keyword.rawValue == text {
+                return SwiftTextSeparatorProvider().isSeparator(peakCharacter ?? " ")
+            }
+        }
+        return false
+    }
+}
+
+class SwiftKeywordCodeHighlighter: CodeHighlighter {
     
     var attributes: [NSAttributedString.Key: Any] {
         return [NSAttributedString.Key.foregroundColor: NSColor(red: 1, green: 0.478, blue: 0.698, alpha: 1)]
     }
     
-    func shouldHighlight(text: String) -> Bool {
-        return keywords.contains(text)
+    func shouldHighlight(text: String, peakCharacter: String?) -> Bool {
+        return Keywords.shouldHighlight(text: text, peakCharacter: peakCharacter)
     }
 }

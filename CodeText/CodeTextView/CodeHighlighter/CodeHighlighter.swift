@@ -10,5 +10,5 @@ import Foundation
 
 protocol CodeHighlighter {
     var attributes: [NSAttributedString.Key: Any] { get }
-    func shouldHighlight(text: String) -> Bool
+    func shouldHighlight(text: String, peakCharacter: String?) -> Bool
 }

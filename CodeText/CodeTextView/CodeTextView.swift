@@ -102,7 +102,8 @@ extension CodeTextView: NSTextStorageDelegate {
                 range.length += 1
                 
                 for highlighter in highlighterProvider.codeHighlighters {
-                    if highlighter.shouldHighlight(text: tempString) {
+                    let peakCharacter = (i+1) == textCharacters.count ? nil : textCharacters[i+1].string
+                    if highlighter.shouldHighlight(text: tempString, peakCharacter: peakCharacter) {
                         for (key, value) in highlighter.attributes {
                             textStorage.addAttribute(key, value: value, range: range)
                         }
