@@ -9,31 +9,12 @@
 import Foundation
 import Cocoa
 
-protocol TextSeparatorProvider {
-    var separators: [String] { get}
-    func isSeparator(_ text: String) -> Bool
-}
-
-extension TextSeparatorProvider {
-    
-    func isSeparator(_ text: String) -> Bool {
-        return separators.contains(text)
-    }
-}
-
-struct SwiftTextSeparatorProvider: TextSeparatorProvider {
-    
-    let separators = [
-        " ", "}", "{", "(", "\n", "\t"
-    ]
-}
-
 class CodeTextView: NSTextView {
     
     // MARK: - Injectable Variables
     
     lazy var textSeparatorProvider: TextSeparatorProvider = {
-       return SwiftTextSeparatorProvider()
+        return SwiftTextSeparatorProvider()
     }()
     
     lazy var highlighterProvider: CodeHighlighterProvider = {
@@ -82,12 +63,13 @@ extension CodeTextView: NSTextStorageDelegate {
         // Needed for performance.
         let textCharacters = textStorage.characters
         
+        // Find the start index based in separators
         while start > 0, !textSeparatorProvider.isSeparator(textCharacters[start].string) {
             start -= 1
         }
         
+        // Find the end index based in separators
         var end = editedRange.upperBound
-        
         while end < textCharacters.count, !textSeparatorProvider.isSeparator(textCharacters[end].string) {
             end += 1
         }
@@ -101,12 +83,16 @@ extension CodeTextView: NSTextStorageDelegate {
         print(updatedRange)
         print("Length: \(updatedRange.length)")
         
+        /// Resets the range and the tempString.
+        ///
+        /// - Parameter offset: Offset of the new start location.
         func reset(offset: Int = 0) {
             range.location += tempString.count + offset
             range.length = 0
             tempString = ""
         }
         
+        // Apply Highlight
         for i in updatedRange.location..<(updatedRange.location + updatedRange.length) {
             let currentCharacter = textCharacters[i].string
             if textSeparatorProvider.isSeparator(currentCharacter) {
@@ -129,30 +115,5 @@ extension CodeTextView: NSTextStorageDelegate {
                 }
             }
         }
-    }
-}
-
-struct CodeHighlighterProvider {
-    let defaultAttributes: [NSAttributedString.Key: Any]
-    let codeHighlighters: [CodeHighlighter]
-}
-
-protocol CodeHighlighter {
-    var attributes: [NSAttributedString.Key: Any] { get }
-    func shouldHighlight(text: String) -> Bool
-}
-
-class SwiftKeywordCodeHighlighter: CodeHighlighter {
-    
-    private let keywords = [
-        "func", "extensions", "private", "var", "if", "else", "init", "class", "protocol"
-    ]
-    
-    var attributes: [NSAttributedString.Key: Any] {
-        return [NSAttributedString.Key.foregroundColor: NSColor.red]
-    }
-    
-    func shouldHighlight(text: String) -> Bool {
-        return keywords.contains(text)
     }
 }

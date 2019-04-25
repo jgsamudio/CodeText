@@ -17,14 +17,22 @@ struct SampleTexts {
     //  Created by Jonathan Samudio on 4/24/19.
     //  Copyright © 2019 Jonathan Samudio. All rights reserved.
     //
-
+    
     import Foundation
     import Cocoa
-
+    
     class CodeTextView: NSTextView {
         
-        // TODO: Make Protocol
-        private var highlighter = CodeHighlighter()
+        // MARK: - Injectable Variables
+        
+        lazy var textSeparatorProvider: TextSeparatorProvider = {
+            return SwiftTextSeparatorProvider()
+        }()
+        
+        lazy var highlighterProvider: CodeHighlighterProvider = {
+            return CodeHighlighterProvider(defaultAttributes: [NSAttributedString.Key.foregroundColor: NSColor.white],
+                                           codeHighlighters: [SwiftKeywordCodeHighlighter()])
+        }()
         
         // Programmatic initialization
         init() {
@@ -38,15 +46,17 @@ struct SampleTexts {
             initialize()
         }
     }
-
+    
     private extension CodeTextView {
         
         func initialize() {
             textStorage?.delegate = self
             string = SampleTexts.sampleFileText
         }
+        
+        // TODO: On /t change tab to 4 spaces
     }
-
+    
     extension CodeTextView: NSTextStorageDelegate {
         
         // Post Processing
@@ -61,13 +71,18 @@ struct SampleTexts {
                 return
             }
             
-            while start > 0, textStorage.characters[start].string != " " {
+            // Preload the character array
+            // Needed for performance.
+            let textCharacters = textStorage.characters
+            
+            // Find the start index based in separators
+            while start > 0, !textSeparatorProvider.isSeparator(textCharacters[start].string) {
                 start -= 1
             }
             
+            // Find the end index based in separators
             var end = editedRange.upperBound
-            
-            while end < textStorage.characters.count, textStorage.characters[end].string != " " {
+            while end < textCharacters.count, !textSeparatorProvider.isSeparator(textCharacters[end].string) {
                 end += 1
             }
             
@@ -77,45 +92,42 @@ struct SampleTexts {
             var tempString = ""
             var range = NSMakeRange(updatedRange.location, 0)
             
-            // Preload the character array
-            // Needed for performance.
-            let textCharacters = textStorage.characters
             print(updatedRange)
+            print("Length: \\(updatedRange.length)")
+            
+            /// Resets the range and the tempString.
+            ///
+            /// - Parameter offset: Offset of the new start location.
+            func reset(offset: Int = 0) {
+                range.location += tempString.count + offset
+                range.length = 0
+                tempString = ""
+            }
+            
+            // Apply Highlight
             for i in updatedRange.location..<(updatedRange.location + updatedRange.length) {
                 let currentCharacter = textCharacters[i].string
-                if currentCharacter == " " {
-                    // Reset the range
-                    // Space of the space +1
-                    range.location += tempString.count + 1
-                    range.length = 0
-                    tempString = ""
+                if textSeparatorProvider.isSeparator(currentCharacter) {
+                    reset(offset: 1)
                 } else {
                     tempString += currentCharacter
                     range.length += 1
-
-                    if tempString == "func" ||
-                        tempString == "extension" ||
-                        tempString == "var" ||
-                        tempString == "if" ||
-                        tempString == "else" {
-                        textStorage.addAttribute(NSAttributedString.Key.foregroundColor, value: NSColor.red, range: range)
-
-                        // Reset the range
-                        range.location += tempString.count
-                        range.length = 0
-                        tempString = ""
-                    } else {
-                        print(range)
-                        textStorage.addAttribute(NSAttributedString.Key.foregroundColor, value: NSColor.white, range: range)
+                    
+                    for highlighter in highlighterProvider.codeHighlighters {
+                        if highlighter.shouldHighlight(text: tempString) {
+                            for (key, value) in highlighter.attributes {
+                                textStorage.addAttribute(key, value: value, range: range)
+                            }
+                            reset()
+                        } else {
+                            for (key, value) in highlighterProvider.defaultAttributes {
+                                textStorage.addAttribute(key, value: value, range: range)
+                            }
+                        }
                     }
                 }
             }
         }
-    }
-
-    class CodeHighlighter {
-        
-        
     }
     """
 }

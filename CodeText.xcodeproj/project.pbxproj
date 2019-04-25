@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		2049C507227140FA0042EA37 /* SampleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049C506227140FA0042EA37 /* SampleText.swift */; };
+		2049C50A22714E890042EA37 /* TextSeparatorProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049C50922714E890042EA37 /* TextSeparatorProvider.swift */; };
+		2049C50C22714E980042EA37 /* SwiftTextSeparatorProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049C50B22714E980042EA37 /* SwiftTextSeparatorProvider.swift */; };
+		2049C50F22714EC40042EA37 /* CodeHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049C50E22714EC40042EA37 /* CodeHighlighter.swift */; };
+		2049C51122714ECF0042EA37 /* CodeHighlighterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049C51022714ECF0042EA37 /* CodeHighlighterProvider.swift */; };
+		2049C51322714ED90042EA37 /* SwiftKeywordCodeHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049C51222714ED90042EA37 /* SwiftKeywordCodeHighlighter.swift */; };
 		20B1EEBA2270E58200EB4A1D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B1EEB92270E58200EB4A1D /* AppDelegate.swift */; };
 		20B1EEBC2270E58300EB4A1D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B1EEBB2270E58300EB4A1D /* ViewController.swift */; };
 		20B1EEBE2270E58400EB4A1D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20B1EEBD2270E58400EB4A1D /* Assets.xcassets */; };
@@ -36,6 +41,11 @@
 
 /* Begin PBXFileReference section */
 		2049C506227140FA0042EA37 /* SampleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleText.swift; sourceTree = "<group>"; };
+		2049C50922714E890042EA37 /* TextSeparatorProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSeparatorProvider.swift; sourceTree = "<group>"; };
+		2049C50B22714E980042EA37 /* SwiftTextSeparatorProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTextSeparatorProvider.swift; sourceTree = "<group>"; };
+		2049C50E22714EC40042EA37 /* CodeHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeHighlighter.swift; sourceTree = "<group>"; };
+		2049C51022714ECF0042EA37 /* CodeHighlighterProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeHighlighterProvider.swift; sourceTree = "<group>"; };
+		2049C51222714ED90042EA37 /* SwiftKeywordCodeHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftKeywordCodeHighlighter.swift; sourceTree = "<group>"; };
 		20B1EEB62270E58200EB4A1D /* CodeText.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeText.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20B1EEB92270E58200EB4A1D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		20B1EEBB2270E58300EB4A1D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +87,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2049C50822714E7B0042EA37 /* TextSeparatorProvider */ = {
+			isa = PBXGroup;
+			children = (
+				2049C50922714E890042EA37 /* TextSeparatorProvider.swift */,
+				2049C50B22714E980042EA37 /* SwiftTextSeparatorProvider.swift */,
+			);
+			path = TextSeparatorProvider;
+			sourceTree = "<group>";
+		};
+		2049C50D22714EB90042EA37 /* CodeHighlighter */ = {
+			isa = PBXGroup;
+			children = (
+				2049C50E22714EC40042EA37 /* CodeHighlighter.swift */,
+				2049C51022714ECF0042EA37 /* CodeHighlighterProvider.swift */,
+				2049C51222714ED90042EA37 /* SwiftKeywordCodeHighlighter.swift */,
+			);
+			path = CodeHighlighter;
+			sourceTree = "<group>";
+		};
 		20B1EEAD2270E58200EB4A1D = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +161,8 @@
 		20B1EEE92271006200EB4A1D /* CodeTextView */ = {
 			isa = PBXGroup;
 			children = (
+				2049C50D22714EB90042EA37 /* CodeHighlighter */,
+				2049C50822714E7B0042EA37 /* TextSeparatorProvider */,
 				20B1EEE72270EACA00EB4A1D /* CodeTextView.swift */,
 				2049C506227140FA0042EA37 /* SampleText.swift */,
 			);
@@ -269,8 +300,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				20B1EEBC2270E58300EB4A1D /* ViewController.swift in Sources */,
+				2049C50F22714EC40042EA37 /* CodeHighlighter.swift in Sources */,
 				20B1EEE82270EACA00EB4A1D /* CodeTextView.swift in Sources */,
+				2049C50A22714E890042EA37 /* TextSeparatorProvider.swift in Sources */,
 				2049C507227140FA0042EA37 /* SampleText.swift in Sources */,
+				2049C51122714ECF0042EA37 /* CodeHighlighterProvider.swift in Sources */,
+				2049C51322714ED90042EA37 /* SwiftKeywordCodeHighlighter.swift in Sources */,
+				2049C50C22714E980042EA37 /* SwiftTextSeparatorProvider.swift in Sources */,
 				20B1EEBA2270E58200EB4A1D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
