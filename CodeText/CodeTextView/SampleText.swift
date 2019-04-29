@@ -31,7 +31,9 @@ struct SampleTexts {
         
         lazy var highlighterProvider: CodeHighlighterProvider = {
             return CodeHighlighterProvider(defaultAttributes: [NSAttributedString.Key.foregroundColor: NSColor.white],
-                                           codeHighlighters: [SwiftKeywordCodeHighlighter()])
+                                           codeHighlighters: [SwiftKeywordCodeHighlighter(),
+                                                              SwiftOtherCodeHightlighter(),
+                                                              SwiftCommentCodeHightlighter()])
         }()
         
         // Programmatic initialization
@@ -89,8 +91,9 @@ struct SampleTexts {
             let length = (editedRange.lowerBound - start) + editedRange.length + (end - editedRange.upperBound)
             let updatedRange = NSMakeRange(start, (length))
             
-            var tempString = ""
+            var currentToken = ""
             var range = NSMakeRange(updatedRange.location, 0)
+            var previousToken = ""
             
             print(updatedRange)
             print("Length: \\(updatedRange.length)")
@@ -98,34 +101,49 @@ struct SampleTexts {
             /// Resets the range and the tempString.
             ///
             /// - Parameter offset: Offset of the new start location.
-            func reset(offset: Int = 0) {
-                range.location += tempString.count + offset
+            func reset(oldRange: NSRange, offset: Int = 0) {
+                range.location += oldRange.length + offset
                 range.length = 0
-                tempString = ""
+                currentToken = ""
             }
             
             // Apply Highlight
-            for i in updatedRange.location..<(updatedRange.location + updatedRange.length) {
-                let currentCharacter = textCharacters[i].string
+            var index = updatedRange.location
+            while index < (updatedRange.location + updatedRange.length) {
+                let currentCharacter = textCharacters[index].string
+                let peakCharacter = (index+1) == textCharacters.count ? nil : textCharacters[index+1].string
+                
                 if textSeparatorProvider.isSeparator(currentCharacter) {
-                    reset(offset: 1)
+                    reset(oldRange: range, offset: 1)
                 } else {
-                    tempString += currentCharacter
+                    currentToken += currentCharacter
                     range.length += 1
                     
                     for highlighter in highlighterProvider.codeHighlighters {
-                        if highlighter.shouldHighlight(text: tempString) {
+                        let tokenInfo = TokenInfo(token: currentToken,
+                                                  currentCharacter: currentCharacter,
+                                                  peakCharacter: peakCharacter,
+                                                  previousToken: previousToken)
+                        let textInfo = TextInfo(range: range, characters: textCharacters)
+                        
+                        if let highlightRange = highlighter.rangeToHighlight(tokenInfo: tokenInfo, textInfo: textInfo) {
                             for (key, value) in highlighter.attributes {
-                                textStorage.addAttribute(key, value: value, range: range)
+                                textStorage.addAttribute(key, value: value, range: highlightRange)
                             }
-                            reset()
+                            previousToken = currentToken
+                            reset(oldRange: highlightRange)
+                            index = highlightRange.upperBound-1
+                            break
                         } else {
                             for (key, value) in highlighterProvider.defaultAttributes {
+                                // This is getting called multiple times when it is already set to default
+                                // Consider refactor
                                 textStorage.addAttribute(key, value: value, range: range)
                             }
                         }
                     }
                 }
+                index+=1
             }
         }
     }
