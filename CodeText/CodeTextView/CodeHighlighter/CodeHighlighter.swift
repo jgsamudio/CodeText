@@ -7,8 +7,21 @@
 //
 
 import Foundation
+import Cocoa
+
+struct TokenInfo {
+    let token: String
+    let currentCharacter: String
+    let peakCharacter: String?
+    let previousToken: String
+}
+
+struct TextInfo {
+    let range: NSRange
+    let characters: [NSTextStorage]
+}
 
 protocol CodeHighlighter {
     var attributes: [NSAttributedString.Key: Any] { get }
-    func shouldHighlight(text: String, peakCharacter: String?, previousToken: String) -> Bool
+    func rangeToHighlight(tokenInfo: TokenInfo, textInfo: TextInfo) -> NSRange?
 }

@@ -19,7 +19,9 @@ class CodeTextView: NSTextView {
     
     lazy var highlighterProvider: CodeHighlighterProvider = {
         return CodeHighlighterProvider(defaultAttributes: [NSAttributedString.Key.foregroundColor: NSColor.white],
-                                       codeHighlighters: [SwiftKeywordCodeHighlighter(), SwiftOtherCodeHightlighter()])
+                                       codeHighlighters: [SwiftKeywordCodeHighlighter(),
+                                                          SwiftOtherCodeHightlighter(),
+                                                          SwiftCommentCodeHightlighter()])
     }()
     
     // Programmatic initialization
@@ -87,38 +89,49 @@ extension CodeTextView: NSTextStorageDelegate {
         /// Resets the range and the tempString.
         ///
         /// - Parameter offset: Offset of the new start location.
-        func reset(offset: Int = 0) {
-            range.location += currentToken.count + offset
+        func reset(oldRange: NSRange, offset: Int = 0) {
+            range.location += oldRange.length + offset
             range.length = 0
             currentToken = ""
         }
         
         // Apply Highlight
-        for i in updatedRange.location..<(updatedRange.location + updatedRange.length) {
-            let currentCharacter = textCharacters[i].string
+        var index = updatedRange.location
+        while index < (updatedRange.location + updatedRange.length) {
+            let currentCharacter = textCharacters[index].string
+            let peakCharacter = (index+1) == textCharacters.count ? nil : textCharacters[index+1].string
+
             if textSeparatorProvider.isSeparator(currentCharacter) {
-                reset(offset: 1)
+                reset(oldRange: range, offset: 1)
             } else {
                 currentToken += currentCharacter
                 range.length += 1
                 
                 for highlighter in highlighterProvider.codeHighlighters {
-                    let peakCharacter = (i+1) == textCharacters.count ? nil : textCharacters[i+1].string
-                    if highlighter.shouldHighlight(text: currentToken,
-                                                   peakCharacter: peakCharacter,
-                                                   previousToken: previousToken) {
+                    let tokenInfo = TokenInfo(token: currentToken,
+                                              currentCharacter: currentCharacter,
+                                              peakCharacter: peakCharacter,
+                                              previousToken: previousToken)
+                    let textInfo = TextInfo(range: range, characters: textCharacters)
+                    
+                    if let highlightRange = highlighter.rangeToHighlight(tokenInfo: tokenInfo, textInfo: textInfo) {
                         for (key, value) in highlighter.attributes {
-                            textStorage.addAttribute(key, value: value, range: range)
+                            textStorage.addAttribute(key, value: value, range: highlightRange)
                         }
                         previousToken = currentToken
-                        reset()
+                        reset(oldRange: highlightRange)
+                        index = highlightRange.upperBound-1
+                        //break
                     } else {
                         for (key, value) in highlighterProvider.defaultAttributes {
+                            // This is getting called multiple times when it is already set to default
+                            // Consider refactor
                             textStorage.addAttribute(key, value: value, range: range)
                         }
                     }
                 }
             }
+            index+=1
         }
     }
 }

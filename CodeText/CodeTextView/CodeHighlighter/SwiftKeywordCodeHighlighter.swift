@@ -50,8 +50,13 @@ class SwiftKeywordCodeHighlighter: CodeHighlighter {
         return [NSAttributedString.Key.foregroundColor: NSColor(red: 1, green: 0.478, blue: 0.698, alpha: 1)]
     }
     
-    func shouldHighlight(text: String, peakCharacter: String?, previousToken: String) -> Bool {
-        return Keywords.shouldHighlight(text: text, peakCharacter: peakCharacter, previousToken: previousToken)
+    func rangeToHighlight(tokenInfo: TokenInfo, textInfo: TextInfo) -> NSRange? {
+        if Keywords.shouldHighlight(text: tokenInfo.token,
+                                    peakCharacter: tokenInfo.peakCharacter,
+                                    previousToken: tokenInfo.previousToken) {
+            return textInfo.range
+        }
+        return nil
     }
 }
 
@@ -61,9 +66,9 @@ enum OtherKeywords: String, CaseIterable {
     case `Bool`
     case `init`
     
-    static func shouldHighlight(text: String, peakCharacter: String?, previousToken: String) -> Bool {
+    static func shouldHighlight(token: String, peakCharacter: String?, previousToken: String) -> Bool {
         for keyword in OtherKeywords.allCases {
-            if keyword.rawValue == text {
+            if keyword.rawValue == token {
                 if keyword == .`init` && previousToken == Keywords.`super`.rawValue {
                     return true
                 }
@@ -80,7 +85,35 @@ class SwiftOtherCodeHightlighter: CodeHighlighter {
         return [NSAttributedString.Key.foregroundColor: NSColor(red: 0.505, green: 0.764, blue: 0.717, alpha: 1)]
     }
     
-    func shouldHighlight(text: String, peakCharacter: String?, previousToken: String) -> Bool {
-        return OtherKeywords.shouldHighlight(text: text, peakCharacter: peakCharacter, previousToken: previousToken)
+    func rangeToHighlight(tokenInfo: TokenInfo, textInfo: TextInfo) -> NSRange? {
+        if OtherKeywords.shouldHighlight(token: tokenInfo.token,
+                                         peakCharacter: tokenInfo.peakCharacter,
+                                         previousToken: tokenInfo.previousToken) {
+            return textInfo.range
+        }
+        return nil
+    }
+}
+
+class SwiftCommentCodeHightlighter: CodeHighlighter {
+    
+    var attributes: [NSAttributedString.Key: Any] {
+        return [NSAttributedString.Key.foregroundColor: NSColor(red: 0.505, green: 0.764, blue: 0.717, alpha: 1)]
+    }
+    
+    func rangeToHighlight(tokenInfo: TokenInfo, textInfo: TextInfo) -> NSRange? {
+        if tokenInfo.currentCharacter == "/" && tokenInfo.peakCharacter == "/" {
+            print(textInfo.range)
+            let startCommentIndex = textInfo.range.upperBound-1
+            for i in startCommentIndex..<textInfo.characters.count {
+                if textInfo.characters[i].string.rangeOfCharacter(from: CharacterSet.newlines) != nil {
+                    let rangeLength = i - startCommentIndex
+                    return NSMakeRange(startCommentIndex, rangeLength)
+                }
+            }
+            let rangeLength = textInfo.characters.count - startCommentIndex
+            return NSMakeRange(startCommentIndex, rangeLength)
+        }
+        return nil
     }
 }
