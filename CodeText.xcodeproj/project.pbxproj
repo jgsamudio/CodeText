@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		201BC7A82277A2ED00D55B99 /* SwiftOtherCodeHightlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201BC7A72277A2ED00D55B99 /* SwiftOtherCodeHightlighter.swift */; };
+		201BC7AA2277A2FC00D55B99 /* SwiftCommentCodeHightlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201BC7A92277A2FC00D55B99 /* SwiftCommentCodeHightlighter.swift */; };
 		2049C507227140FA0042EA37 /* SampleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049C506227140FA0042EA37 /* SampleText.swift */; };
 		2049C50A22714E890042EA37 /* TextSeparatorProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049C50922714E890042EA37 /* TextSeparatorProvider.swift */; };
 		2049C50C22714E980042EA37 /* SwiftTextSeparatorProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049C50B22714E980042EA37 /* SwiftTextSeparatorProvider.swift */; };
@@ -41,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		201BC7A72277A2ED00D55B99 /* SwiftOtherCodeHightlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftOtherCodeHightlighter.swift; sourceTree = "<group>"; };
+		201BC7A92277A2FC00D55B99 /* SwiftCommentCodeHightlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftCommentCodeHightlighter.swift; sourceTree = "<group>"; };
 		2049C506227140FA0042EA37 /* SampleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleText.swift; sourceTree = "<group>"; };
 		2049C50922714E890042EA37 /* TextSeparatorProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSeparatorProvider.swift; sourceTree = "<group>"; };
 		2049C50B22714E980042EA37 /* SwiftTextSeparatorProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTextSeparatorProvider.swift; sourceTree = "<group>"; };
@@ -104,6 +108,8 @@
 				2049C50E22714EC40042EA37 /* CodeHighlighter.swift */,
 				2049C51022714ECF0042EA37 /* CodeHighlighterProvider.swift */,
 				2049C51222714ED90042EA37 /* SwiftKeywordCodeHighlighter.swift */,
+				201BC7A72277A2ED00D55B99 /* SwiftOtherCodeHightlighter.swift */,
+				201BC7A92277A2FC00D55B99 /* SwiftCommentCodeHightlighter.swift */,
 			);
 			path = CodeHighlighter;
 			sourceTree = "<group>";
@@ -319,7 +325,9 @@
 				2049C51122714ECF0042EA37 /* CodeHighlighterProvider.swift in Sources */,
 				2049C51322714ED90042EA37 /* SwiftKeywordCodeHighlighter.swift in Sources */,
 				2049C50C22714E980042EA37 /* SwiftTextSeparatorProvider.swift in Sources */,
+				201BC7A82277A2ED00D55B99 /* SwiftOtherCodeHightlighter.swift in Sources */,
 				20B1EEBA2270E58200EB4A1D /* AppDelegate.swift in Sources */,
+				201BC7AA2277A2FC00D55B99 /* SwiftCommentCodeHightlighter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

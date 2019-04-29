@@ -121,7 +121,7 @@ extension CodeTextView: NSTextStorageDelegate {
                         previousToken = currentToken
                         reset(oldRange: highlightRange)
                         index = highlightRange.upperBound-1
-                        //break
+                        break
                     } else {
                         for (key, value) in highlighterProvider.defaultAttributes {
                             // This is getting called multiple times when it is already set to default
