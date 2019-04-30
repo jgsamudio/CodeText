@@ -14,6 +14,18 @@ enum OtherKeywords: String, CaseIterable {
     case `Int`
     case `Bool`
     case `init`
+    case `NSTextView`
+    case `NSTextStorage`
+    case `NSTextStorageEditActions`
+    case `NSRange`
+    case `NSCoder`
+    case `NSMakeRange`
+    case `NSTextStorageDelegate`
+    case `NSAttributedString`
+    case `NSColor`
+    case `print`
+    case `CGRect`
+    case `CaseIterable`
     
     static func shouldHighlight(token: String, peakCharacter: String?, previousToken: String) -> Bool {
         for keyword in OtherKeywords.allCases {
