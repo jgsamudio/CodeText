@@ -8,14 +8,14 @@
 
 import Foundation
 
-protocol TextSeparatorProvider {
+public protocol TextSeparatorProvider {
     var separators: [String] { get}
     func isSeparator(_ text: String) -> Bool
 }
 
 extension TextSeparatorProvider {
     
-    func isSeparator(_ text: String) -> Bool {
+    public func isSeparator(_ text: String) -> Bool {
         return separators.contains(text)
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-enum OtherKeywords: String, CaseIterable {
+public enum OtherKeywords: String, CaseIterable {
     case `String`
     case `Int`
     case `Bool`
@@ -27,7 +27,7 @@ enum OtherKeywords: String, CaseIterable {
     case `CGRect`
     case `CaseIterable`
     
-    static func shouldHighlight(token: String, peakCharacter: String?, previousToken: String) -> Bool {
+    public static func shouldHighlight(token: String, peakCharacter: String?, previousToken: String) -> Bool {
         for keyword in OtherKeywords.allCases {
             if keyword.rawValue == token {
                 if keyword == .`init` && previousToken == Keywords.`super`.rawValue {
@@ -40,13 +40,13 @@ enum OtherKeywords: String, CaseIterable {
     }
 }
 
-class SwiftOtherCodeHightlighter: CodeHighlighter {
+public class SwiftOtherCodeHightlighter: CodeHighlighter {
     
-    var attributes: [NSAttributedString.Key: Any] {
+    public var attributes: [NSAttributedString.Key: Any] {
         return [NSAttributedString.Key.foregroundColor: NSColor(red: 0.505, green: 0.764, blue: 0.717, alpha: 1)]
     }
     
-    func rangeToHighlight(tokenInfo: TokenInfo, textInfo: TextInfo) -> NSRange? {
+    public func rangeToHighlight(tokenInfo: TokenInfo, textInfo: TextInfo) -> NSRange? {
         if OtherKeywords.shouldHighlight(token: tokenInfo.token,
                                          peakCharacter: tokenInfo.peakCharacter,
                                          previousToken: tokenInfo.previousToken) {

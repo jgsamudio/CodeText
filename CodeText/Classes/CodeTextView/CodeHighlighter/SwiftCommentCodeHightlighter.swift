@@ -9,13 +9,13 @@
 import Foundation
 import Cocoa
 
-class SwiftCommentCodeHightlighter: CodeHighlighter {
+public class SwiftCommentCodeHightlighter: CodeHighlighter {
     
-    var attributes: [NSAttributedString.Key: Any] {
+    public var attributes: [NSAttributedString.Key: Any] {
         return [NSAttributedString.Key.foregroundColor: NSColor(red: 0.498, green: 0.549, blue: 0.596, alpha: 1)]
     }
     
-    func rangeToHighlight(tokenInfo: TokenInfo, textInfo: TextInfo) -> NSRange? {
+    public func rangeToHighlight(tokenInfo: TokenInfo, textInfo: TextInfo) -> NSRange? {
         if tokenInfo.currentCharacter == "/" && tokenInfo.peakCharacter == "/" {
             let startCommentIndex = textInfo.range.upperBound-1
             for i in startCommentIndex..<textInfo.characters.count {

@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct SwiftTextSeparatorProvider: TextSeparatorProvider {
+public struct SwiftTextSeparatorProvider: TextSeparatorProvider {
     
-    let separators = [
+    public let separators = [
         " ", "}", "{", "(", ")", "\n", "\t", ",", ".", "?"
     ]
 }

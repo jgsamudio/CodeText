@@ -9,15 +9,15 @@
 import Foundation
 import Cocoa
 
-class CodeTextView: NSTextView {
+public class CodeTextView: NSTextView {
     
     // MARK: - Injectable Variables
     
-    lazy var textSeparatorProvider: TextSeparatorProvider = {
+    public lazy var textSeparatorProvider: TextSeparatorProvider = {
         return SwiftTextSeparatorProvider()
     }()
     
-    lazy var highlighterProvider: CodeHighlighterProvider = {
+    public lazy var highlighterProvider: CodeHighlighterProvider = {
         return CodeHighlighterProvider(defaultAttributes: [NSAttributedString.Key.foregroundColor: NSColor.white],
                                        codeHighlighters: [SwiftKeywordCodeHighlighter(),
                                                           SwiftOtherCodeHightlighter(),
@@ -52,7 +52,7 @@ extension CodeTextView: NSTextStorageDelegate {
     // Post Processing
     // https://developer.apple.com/documentation/uikit/nstextstoragedelegate/1534375-textstorage
     @available(OSX 10.11, *)
-    func textStorage(_ textStorage: NSTextStorage,
+    public func textStorage(_ textStorage: NSTextStorage,
                      didProcessEditing editedMask: NSTextStorageEditActions,
                      range editedRange: NSRange,
                      changeInLength delta: Int) {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CodeHighlighterProvider {
-    let defaultAttributes: [NSAttributedString.Key: Any]
-    let codeHighlighters: [CodeHighlighter]
+public struct CodeHighlighterProvider {
+    public let defaultAttributes: [NSAttributedString.Key: Any]
+    public let codeHighlighters: [CodeHighlighter]
 }
