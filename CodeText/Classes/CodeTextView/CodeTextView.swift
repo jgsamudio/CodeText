@@ -51,6 +51,7 @@ extension CodeTextView: NSTextStorageDelegate {
     
     // Post Processing
     // https://developer.apple.com/documentation/uikit/nstextstoragedelegate/1534375-textstorage
+    @available(OSX 10.11, *)
     func textStorage(_ textStorage: NSTextStorage,
                      didProcessEditing editedMask: NSTextStorageEditActions,
                      range editedRange: NSRange,
