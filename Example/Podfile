@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'CodeText_Example' do
+  pod 'CodeText', :path => '../'
+
+  target 'CodeText_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

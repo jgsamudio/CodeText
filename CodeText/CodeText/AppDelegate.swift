@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  CodeText
 //
-//  Created by Jonathan Samudio on 4/24/19.
-//  Copyright © 2019 Jonathan Samudio. All rights reserved.
+//  Created by Jonathan Samudio on 5/22/19.
+//  Copyright © 2019 JustBinary. All rights reserved.
 //
 
 import Cocoa

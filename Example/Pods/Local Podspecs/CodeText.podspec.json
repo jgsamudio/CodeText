@@ -1,0 +1,22 @@
+{
+  "name": "CodeText",
+  "version": "0.1.0",
+  "summary": "A short description of CodeText.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/jgsamudio/CodeText",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "jgsamudio": "jonathan2457@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/jgsamudio/CodeText.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "osx": "10.10"
+  },
+  "source_files": "CodeText/Classes/**/*"
+}

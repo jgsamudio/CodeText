@@ -1,0 +1,16 @@
+PODS:
+  - CodeText (0.1.0)
+
+DEPENDENCIES:
+  - CodeText (from `../`)
+
+EXTERNAL SOURCES:
+  CodeText:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  CodeText: 345181895cc85dc7d2e3f7cfd3fb7d8bc364b63c
+
+PODFILE CHECKSUM: 60081c1423f727d7be81fe0ba3c3b2a83df72fbb
+
+COCOAPODS: 1.5.3
