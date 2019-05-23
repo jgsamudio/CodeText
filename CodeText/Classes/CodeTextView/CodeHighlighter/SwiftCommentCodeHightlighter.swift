@@ -12,7 +12,8 @@ import Cocoa
 public class SwiftCommentCodeHightlighter: CodeHighlighter {
     
     public var attributes: [NSAttributedString.Key: Any] {
-        return [NSAttributedString.Key.foregroundColor: NSColor(red: 0.498, green: 0.549, blue: 0.596, alpha: 1)]
+        return [NSAttributedString.Key.foregroundColor: NSColor(red: 0.498, green: 0.549, blue: 0.596, alpha: 1),
+                NSAttributedString.Key.font: NSFont(name: "Menlo", size: 11)!]
     }
     
     public func rangeToHighlight(tokenInfo: TokenInfo, textInfo: TextInfo) -> NSRange? {

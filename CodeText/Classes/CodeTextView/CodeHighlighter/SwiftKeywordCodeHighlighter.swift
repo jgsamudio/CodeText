@@ -47,7 +47,8 @@ public enum Keywords: String, CaseIterable {
 public class SwiftKeywordCodeHighlighter: CodeHighlighter {
     
     public var attributes: [NSAttributedString.Key: Any] {
-        return [NSAttributedString.Key.foregroundColor: NSColor(red: 1, green: 0.478, blue: 0.698, alpha: 1)]
+        return [NSAttributedString.Key.foregroundColor: NSColor(red: 1, green: 0.478, blue: 0.698, alpha: 1),
+                NSAttributedString.Key.font: NSFont(name: "Menlo", size: 11)!]
     }
     
     public func rangeToHighlight(tokenInfo: TokenInfo, textInfo: TextInfo) -> NSRange? {
