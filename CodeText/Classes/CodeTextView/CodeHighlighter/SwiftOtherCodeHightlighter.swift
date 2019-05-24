@@ -10,10 +10,16 @@ import Foundation
 import Cocoa
 
 public enum OtherKeywords: String, CaseIterable {
+    
+    // Swift
     case `String`
     case `Int`
     case `Bool`
     case `init`
+    case `print`
+    case `CaseIterable`
+    
+    // Cocoa
     case `NSTextView`
     case `NSTextStorage`
     case `NSTextStorageEditActions`
@@ -23,10 +29,14 @@ public enum OtherKeywords: String, CaseIterable {
     case `NSTextStorageDelegate`
     case `NSAttributedString`
     case `NSColor`
-    case `print`
-    case `CGRect`
-    case `CaseIterable`
     
+    // UIKit
+    case `UIViewController`
+    case `UIView`
+    case `UILabel`
+    case `UIButton`
+    case `CGRect`
+
     public static func shouldHighlight(token: String, peakCharacter: String?, previousToken: String) -> Bool {
         for keyword in OtherKeywords.allCases {
             if keyword.rawValue == token {

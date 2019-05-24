@@ -13,6 +13,16 @@ public class CodeTextView: NSTextView {
     
     // MARK: - Injectable Variables
     
+    override public var string: String {
+        get {
+          return super.string
+        } set {
+            stringReplaced = true
+            super.string = newValue
+            stringReplaced = false
+        }
+    }
+    
     public lazy var textSeparatorProvider: TextSeparatorProvider = {
         return SwiftTextSeparatorProvider()
     }()
@@ -23,6 +33,8 @@ public class CodeTextView: NSTextView {
                                                           SwiftOtherCodeHightlighter(),
                                                           SwiftCommentCodeHightlighter()])
     }()
+    
+    private var stringReplaced = false
     
     // Programmatic initialization
     init() {
@@ -57,7 +69,7 @@ extension CodeTextView: NSTextStorageDelegate {
                      range editedRange: NSRange,
                      changeInLength delta: Int) {
         
-        var start = editedRange.lowerBound + min(delta, 0)
+        var start = stringReplaced ? 0 : editedRange.lowerBound + min(delta, 0)
         if start < 0 {
             return
         }
@@ -103,6 +115,9 @@ extension CodeTextView: NSTextStorageDelegate {
             let peakCharacter = (index+1) == textCharacters.count ? nil : textCharacters[index+1].string
 
             if textSeparatorProvider.isSeparator(currentCharacter) {
+                for (key, value) in highlighterProvider.defaultAttributes {
+                    textStorage.addAttribute(key, value: value, range: NSMakeRange(range.location+range.length, 1))
+                }
                 reset(oldRange: range, offset: 1)
             } else {
                 currentToken += currentCharacter
